@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"context"
 	"errors"
-	"fmt"
 	"net/http"
 	"net/url"
 	"time"
@@ -120,9 +119,7 @@ func (p *AzureProvider) Redeem(ctx context.Context, redirectURL, code string) (s
 }
 
 func getAzureHeader(accessToken string) http.Header {
-	header := make(http.Header)
-	header.Set("Authorization", fmt.Sprintf("Bearer %s", accessToken))
-	return header
+	return getAuthorizationHeader(tokenTypeBearer, accessToken, nil)
 }
 
 func getEmailFromJSON(json *simplejson.Json) (string, error) {

@@ -3,7 +3,6 @@ package providers
 import (
 	"context"
 	"fmt"
-	"net/http"
 	"strings"
 	"time"
 
@@ -223,15 +222,7 @@ func (p *OIDCProvider) ValidateSessionState(ctx context.Context, s *sessions.Ses
 	return err == nil
 }
 
-func getOIDCHeader(accessToken string) http.Header {
-	header := make(http.Header)
-	header.Set("Accept", "application/json")
-	header.Set("Authorization", fmt.Sprintf("Bearer %s", accessToken))
-	return header
-}
-
 func (p *OIDCProvider) findClaimsFromIDToken(ctx context.Context, idToken *oidc.IDToken, accessToken string, profileURL string) (*OIDCClaims, error) {
-
 	claims := &OIDCClaims{}
 	// Extract default claims.
 	if err := idToken.Claims(&claims); err != nil {

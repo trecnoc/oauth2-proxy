@@ -3,7 +3,6 @@ package providers
 import (
 	"context"
 	"errors"
-	"fmt"
 	"net/http"
 	"net/url"
 
@@ -46,11 +45,12 @@ func NewLinkedInProvider(p *ProviderData) *LinkedInProvider {
 }
 
 func getLinkedInHeader(accessToken string) http.Header {
-	header := make(http.Header)
-	header.Set("Accept", "application/json")
-	header.Set("x-li-format", "json")
-	header.Set("Authorization", fmt.Sprintf("Bearer %s", accessToken))
-	return header
+	// extra headers required by the LinkedIn API when making authenticated requests
+	extraHeaders := map[string]string{
+		acceptHeader:  acceptApplicationJSON,
+		"x-li-format": "json",
+	}
+	return getAuthorizationHeader(tokenTypeBearer, accessToken, extraHeaders)
 }
 
 // GetEmailAddress returns the Account email address
