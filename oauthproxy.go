@@ -908,6 +908,9 @@ func (p *OAuthProxy) addHeadersForProxying(rw http.ResponseWriter, req *http.Req
 			}
 		}
 	}
+	
+	// For websockets we verify using a cookie as headers cannot be passed in the upgrade request
+	http.SetCookie(rw, p.makeCookie(req, "X-Authorization", session.IDToken, p.CookieExpire, time.Now()))
 
 	if p.PassAccessToken {
 		if session.AccessToken != "" {
