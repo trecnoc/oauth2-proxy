@@ -13,7 +13,7 @@ jobs:
     - name: Build and Publish to DockerHub
       uses: docker/build-push-action@v1
       with:
-        repository: trecnoc/nexus-resource
+        repository: trecnoc/oauth2-proxy
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         tags: latest
